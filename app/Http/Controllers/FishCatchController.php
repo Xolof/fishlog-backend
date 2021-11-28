@@ -11,6 +11,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class FishCatchController extends Controller
 {
@@ -52,13 +53,14 @@ class FishCatchController extends Controller
     public function store(Request $request)
     {
         //Validate data
-        $data = $request->only('species', 'length', 'weight', 'date', 'location');
+        $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
         $validator = Validator::make($data, [
             'species' => 'required|string',
             'length' => 'required',
             'weight' => 'required',
             'date' => 'required',
-            'location' => 'required'
+            'location' => 'required',
+            'uploadImage' => 'required'
         ]);
 
         //Send failed response if request is not valid
@@ -66,14 +68,24 @@ class FishCatchController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
-        //Request is valid, create new fishcatch
-        $fishCatch = $this->user->fishCatches()->create([
-            'species' => $request->species,
-            'length' => $request->length,
-            'weight' => $request->weight,
-            'date' => $request->date,
-            'location' => $request->location
-        ]);
+        // Save the image
+        // TODO: Validate
+        $imageurl = $request->file("uploadImage")->store("public");
+        $imageurl = Storage::url($imageurl);
+
+        try {
+            //Request is valid, create new fishcatch
+            $fishCatch = $this->user->fishCatches()->create([
+                'species' => $request->species,
+                'length' => $request->length,
+                'weight' => $request->weight,
+                'date' => $request->date,
+                'location' => $request->location,
+                'imageurl' => $imageurl
+            ]);
+        } catch (\Exception $err) {
+            return $err->getMessage();
+        }
 
         //Fishcatch created, return success response
         return response()->json([

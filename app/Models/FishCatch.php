@@ -9,6 +9,6 @@ class FishCatch extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'species', 'length', 'weight', 'date', 'location'
+        'species', 'length', 'weight', 'date', 'location', 'imageurl'
     ];
 }

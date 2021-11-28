@@ -21,6 +21,7 @@ class CreateFishCatchesTable extends Migration
             $table->integer('weight');
             $table->date('date');
             $table->string('location');
+            $table->string('imageurl')->unique();
             $table->timestamps();
             
             // $table->foreign('user_id')
