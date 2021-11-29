@@ -56,16 +56,16 @@ class FishCatchController extends Controller
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
         $validator = Validator::make($data, [
             'species' => 'required|string',
-            'length' => 'required',
-            'weight' => 'required',
-            'date' => 'required',
-            'location' => 'required',
-            'uploadImage' => 'required'
+            'length' => 'required|integer',
+            'weight' => 'required|integer',
+            'date' => 'required|date',
+            'location' => 'required|string',
+            'uploadImage' => 'required|image'
         ]);
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
         // Save the image
