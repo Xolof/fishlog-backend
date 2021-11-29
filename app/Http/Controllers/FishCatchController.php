@@ -69,7 +69,6 @@ class FishCatchController extends Controller
         }
 
         // Save the image
-        // TODO: Validate
         $imageurl = $request->file("uploadImage")->store("public");
         $imageurl = Storage::url($imageurl);
 
