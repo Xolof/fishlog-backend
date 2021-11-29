@@ -21,7 +21,13 @@ class PublicController extends Controller
         $fishCatches = DB::table('fish_catches')
             ->leftJoin("users", "fish_catches.user_id", "=", "users.id")
             ->select("species", "length", "weight", "date", "location", "imageurl", "name as username")
-            ->get();
+            ->get()->toArray();
+
+        foreach($fishCatches as $arr) {
+            foreach($arr as &$val) {
+                $val = htmlentities($val);
+            }
+        }
 
         return $fishCatches;
     }

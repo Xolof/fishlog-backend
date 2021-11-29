@@ -75,12 +75,12 @@ class FishCatchController extends Controller
         try {
             //Request is valid, create new fishcatch
             $fishCatch = $this->user->fishCatches()->create([
-                'species' => $request->species,
-                'length' => $request->length,
-                'weight' => $request->weight,
-                'date' => $request->date,
-                'location' => $request->location,
-                'imageurl' => $imageurl
+                'species' => strip_tags($request->species),
+                'length' => strip_tags($request->length),
+                'weight' => strip_tags($request->weight),
+                'date' => strip_tags($request->date),
+                'location' => strip_tags($request->location),
+                'imageurl' => strip_tags($imageurl)
             ]);
         } catch (\Exception $err) {
             return $err->getMessage();
