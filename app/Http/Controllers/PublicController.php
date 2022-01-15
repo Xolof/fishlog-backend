@@ -20,7 +20,7 @@ class PublicController extends Controller
     {
         $fishCatches = DB::table('fish_catches')
             ->leftJoin("users", "fish_catches.user_id", "=", "users.id")
-            ->select("species", "length", "weight", "date", "location", "imageurl", "name as username")
+            ->select("fish_catches.id", "species", "length", "weight", "date", "location", "imageurl", "name as username")
             ->get()->toArray();
 
         foreach($fishCatches as $arr) {
