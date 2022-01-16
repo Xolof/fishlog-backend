@@ -54,6 +54,7 @@ class FishCatchController extends Controller
     {
         //Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
+
         $validator = Validator::make($data, [
             'species' => 'required|string',
             'length' => 'required|integer',
@@ -131,21 +132,23 @@ class FishCatchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
         //Validate data
-        $data = $request->only('species', 'length', 'weight', 'date', 'location');
+        $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
+
         $validator = Validator::make($data, [
             'species' => 'required|string',
-            'length' => 'required',
-            'weight' => 'required',
-            'date' => 'required',
-            'location' => 'required'
+            'length' => 'required|integer',
+            'weight' => 'required|integer',
+            'date' => 'required|date',
+            'location' => 'required|string'
         ]);
 
         //Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
         $fishCatch = $this->user->fishCatches()->find($id);
@@ -154,14 +157,24 @@ class FishCatchController extends Controller
             return response()->json(['message' => "Sorry, item not found."], 400);
         }
 
+        $updateData = [
+            'species' => strip_tags($request->species),
+            'length' => strip_tags($request->length),
+            'weight' => strip_tags($request->weight),
+            'date' => strip_tags($request->date),
+            'location' => strip_tags($request->location)
+        ];
+
+        $uploadImage = $request->file("uploadImage");
+        if ($uploadImage) {
+            // Save the image
+            $imageurl = $request->file("uploadImage")->store("public");
+            $imageurl = Storage::url($imageurl);
+            $updateData['imageurl'] = strip_tags($imageurl);
+        }
+
         //Request is valid, update fishcatch
-        $fishCatch->update([
-            'species' => $request->species,
-            'length' => $request->length,
-            'weight' => $request->weight,
-            'date' => $request->date,
-            'location' => $request->location
-        ]);
+        $fishCatch->update($updateData);
 
         //Fishcatch updated, return success response
         return response()->json([
