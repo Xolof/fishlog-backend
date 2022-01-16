@@ -27,6 +27,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('fishcatch', [FishCatchController::class, 'index']);
     Route::get('fishcatch/{id}', [FishCatchController::class, 'show']);
     Route::post('create', [FishCatchController::class, 'store']);
-    Route::put('update/{id}',  [FishCatchController::class, 'update']);
+    Route::post('update/{id}',  [FishCatchController::class, 'update']);
     Route::delete('delete/{id}',  [FishCatchController::class, 'destroy']);
 });
