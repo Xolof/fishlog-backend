@@ -56,9 +56,9 @@ class FishCatchController extends Controller
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
-            'species' => 'required|string',
-            'length' => 'required|integer',
-            'weight' => 'required|integer',
+            'species' => 'required|string|alpha_num',
+            'length' => 'required|integer|gt:0',
+            'weight' => 'required|integer|gt:0',
             'date' => 'required|date',
             'location' => 'required|string',
             'uploadImage' => 'required|image'
@@ -139,9 +139,9 @@ class FishCatchController extends Controller
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
-            'species' => 'required|string',
-            'length' => 'required|integer',
-            'weight' => 'required|integer',
+            'species' => 'required|string|alpha_num',
+            'length' => 'required|integer|gt:0',
+            'weight' => 'required|integer|gt:0',
             'date' => 'required|date',
             'location' => 'required|string'
         ]);
