@@ -84,7 +84,11 @@ class FishCatchController extends Controller
                 'imageurl' => strip_tags($imageurl)
             ]);
         } catch (\Exception $err) {
-            return $err->getMessage();
+            return response()->json([
+                "error" => [
+                    "Something went wrong, please check your data."
+                ]
+            ]);
         }
 
         //Fishcatch created, return success response
@@ -143,7 +147,8 @@ class FishCatchController extends Controller
             'length' => 'required|integer|gt:0',
             'weight' => 'required|integer|gt:0',
             'date' => 'required|date',
-            'location' => 'required|string'
+            'location' => 'required|string',
+            'uploadImage' => 'image'
         ]);
 
         //Send failed response if request is not valid
@@ -173,8 +178,16 @@ class FishCatchController extends Controller
             $updateData['imageurl'] = strip_tags($imageurl);
         }
 
-        //Request is valid, update fishcatch
-        $fishCatch->update($updateData);
+        try {
+            //Request is valid, update fishcatch
+            $fishCatch->update($updateData);
+        } catch (\Exception $err) {
+            return response()->json([
+                "errors" => [
+                    "Something went wrong, please check your data."
+                ]
+            ]);
+        }
 
         //Fishcatch updated, return success response
         return response()->json([
