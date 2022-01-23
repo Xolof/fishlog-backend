@@ -25,7 +25,7 @@ class PublicController extends Controller
 
         foreach($fishCatches as $arr) {
             foreach($arr as &$val) {
-                $val = htmlentities($val);
+                $val = htmlspecialchars($val, ENT_QUOTES, "UTF-8");
             }
         }
 
