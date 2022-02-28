@@ -178,11 +178,17 @@ class FishCatchController extends Controller
             'location' => strip_tags($request->location)
         ];
 
-        $uploadImage = $request->file("uploadImage");
-        if ($uploadImage) {
+        $uploadimage = $request->file("uploadImage");
+        if ($uploadimage) {
             // Save the image
-            $imageurl = $request->file("uploadImage")->store("public");
-            $imageurl = Storage::url($imageurl);
+            $filename = explode("/", $uploadimage)[2];
+            $saveurl = public_path("/storage" . "/" . $filename . ".webp");
+            $image = Image::make($uploadimage)->encode("webp", 90)
+                ->resize(150, 150, function($constraint) {
+                    $constraint->aspectRatio();
+                })->save($saveurl);
+
+            $imageurl = "/storage" . "/" . $filename . ".webp";
             $updateData['imageurl'] = strip_tags($imageurl);
         }
 
