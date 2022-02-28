@@ -75,7 +75,7 @@ class FishCatchController extends Controller
         $filename = explode("/", $uploadimage)[2];
         $saveurl = public_path("/storage" . "/" . $filename . ".webp");
         $image = Image::make($uploadimage)->encode("webp", 90)
-            ->resize(150, 150, function($constraint) {
+            ->resize(500, 500, function($constraint) {
                 $constraint->aspectRatio();
             })->save($saveurl);
 
@@ -184,7 +184,7 @@ class FishCatchController extends Controller
             $filename = explode("/", $uploadimage)[2];
             $saveurl = public_path("/storage" . "/" . $filename . ".webp");
             $image = Image::make($uploadimage)->encode("webp", 90)
-                ->resize(150, 150, function($constraint) {
+                ->resize(500, 500, function($constraint) {
                     $constraint->aspectRatio();
                 })->save($saveurl);
 
