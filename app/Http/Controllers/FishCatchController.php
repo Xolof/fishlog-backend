@@ -61,7 +61,7 @@ class FishCatchController extends Controller
             'length' => 'required|integer|gt:0',
             'weight' => 'required|integer|gt:0',
             'date' => 'required|date',
-            'location' => 'required|string',
+            'location' => 'required|string|regex:/^\d{2}.\d{15},\d{2}.\d{15}$/',
             'uploadImage' => 'required|image'
         ]);
 
@@ -155,7 +155,7 @@ class FishCatchController extends Controller
             'length' => 'required|integer|gt:0',
             'weight' => 'required|integer|gt:0',
             'date' => 'required|date',
-            'location' => 'required|string',
+            'location' => 'required|string|regex:/^\d{2}.\d{15},\d{2}.\d{15}$/',
             'uploadImage' => 'image'
         ]);
 
