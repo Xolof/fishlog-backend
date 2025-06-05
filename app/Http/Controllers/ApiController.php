@@ -56,6 +56,7 @@ class ApiController extends Controller
             return response()->json(['error' => $validator->messages()], 200);
         }
 
+
         //Request is validated
         //Crean token
         try {
@@ -66,13 +67,12 @@ class ApiController extends Controller
                 ], 400);
             }
         } catch (JWTException $e) {
-    	return $credentials;
             return response()->json([
                 	'success' => false,
                 	'message' => 'Could not create token.',
                 ], 500);
         }
- 	
+
  		//Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
