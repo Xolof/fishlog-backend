@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
+use Tymon\JWTAuth\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -41,7 +41,7 @@ class ApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request, JWTAuth $jwtAuth)
     {
         $credentials = $request->only('email', 'password');
 
@@ -59,7 +59,7 @@ class ApiController extends Controller
         // Request is validated
         // Crean token
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (! $token = $jwtAuth->attempt($credentials)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Login credentials are invalid.',
@@ -79,7 +79,7 @@ class ApiController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request, JWTAuth $jwtAuth)
     {
         // valid credential
         $validator = Validator::make($request->only('token'), [
@@ -93,7 +93,7 @@ class ApiController extends Controller
 
         // Request is validated, do logout
         try {
-            JWTAuth::invalidate($request->token);
+            $jwtAuth->invalidate($request->token);
 
             return response()->json([
                 'success' => true,
@@ -107,13 +107,13 @@ class ApiController extends Controller
         }
     }
 
-    public function get_user(Request $request)
+    public function get_user(Request $request, JWTAuth $jwtAuth)
     {
         $this->validate($request, [
             'token' => 'required',
         ]);
 
-        $user = JWTAuth::authenticate($request->token);
+        $user = $jwtAuth->authenticate($request->token);
 
         return response()->json(['user' => $user]);
     }

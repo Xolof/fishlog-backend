@@ -8,19 +8,18 @@ namespace App\Http\Controllers;
 
 use App\Models\FishCatch;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Image;
-use JWTAuth;
+use Intervention\Image\Image;
+use Tymon\JWTAuth\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
 class FishCatchController extends Controller
 {
     protected $user;
 
-    public function __construct()
+    public function __construct(JWTAuth $jwtAuth)
     {
-        $this->user = JWTAuth::parseToken()->authenticate();
+        $this->user = $jwtAuth->parseToken()->authenticate();
     }
 
     /**
@@ -38,11 +37,11 @@ class FishCatchController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function create()
+    public function create(): void
     {
-        //
+
     }
 
     /**
@@ -50,7 +49,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Image $image)
     {
         // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
@@ -73,7 +72,7 @@ class FishCatchController extends Controller
         $uploadimage = $request->file('uploadImage');
         $filename = explode('/', $uploadimage)[2];
         $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-        $image = Image::make($uploadimage)->encode('webp', 90)
+        $image = $image->make($uploadimage)->encode('webp', 90)
             ->resize(500, 500, function ($constraint): void {
                 $constraint->aspectRatio();
             })->save($saveurl);
@@ -129,11 +128,11 @@ class FishCatchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function edit(FishCatch $fishCatch)
+    public function edit(FishCatch $fishCatch): void
     {
-        //
+
     }
 
     /**
@@ -141,7 +140,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, Image $image)
     {
         // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
@@ -179,7 +178,7 @@ class FishCatchController extends Controller
             // Save the image
             $filename = explode('/', $uploadimage)[2];
             $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-            $image = Image::make($uploadimage)->encode('webp', 90)
+            $image = $image->make($uploadimage)->encode('webp', 90)
                 ->resize(500, 500, function ($constraint): void {
                     $constraint->aspectRatio();
                 })->save($saveurl);
