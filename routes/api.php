@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FishCatchController;
 use App\Http\Controllers\PublicController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +20,12 @@ Route::post('login', [ApiController::class, 'authenticate']);
 Route::post('register', [ApiController::class, 'register']);
 Route::get('public_fishcatch', [PublicController::class, 'index']);
 
-Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('get_user', [ApiController::class, 'get_user']);
     Route::get('fishcatch', [FishCatchController::class, 'index']);
     Route::get('fishcatch/{id}', [FishCatchController::class, 'show']);
     Route::post('create', [FishCatchController::class, 'store']);
-    Route::post('update/{id}',  [FishCatchController::class, 'update']);
-    Route::delete('delete/{id}',  [FishCatchController::class, 'destroy']);
+    Route::post('update/{id}', [FishCatchController::class, 'update']);
+    Route::delete('delete/{id}', [FishCatchController::class, 'destroy']);
 });

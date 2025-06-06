@@ -23,7 +23,7 @@ class CreateFishCatchesTable extends Migration
             $table->string('location');
             $table->string('imageurl')->unique();
             $table->timestamps();
-            
+
             // $table->foreign('user_id')
             //         ->references('id')
             //         ->on('users')
