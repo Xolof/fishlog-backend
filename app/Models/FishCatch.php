@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class FishCatch extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'species', 'length', 'weight', 'date', 'location', 'imageurl'
+        'species', 'length', 'weight', 'date', 'location', 'imageurl',
     ];
 }
