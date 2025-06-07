@@ -13,7 +13,6 @@ class ApiController extends Controller
 {
     public function register(Request $request)
     {
-        // Validate data
         $data = $request->only('name', 'email', 'password');
         $validator = Validator::make($data, [
             'name' => 'required|string|unique:users',
@@ -21,19 +20,16 @@ class ApiController extends Controller
             'password' => 'required|string|min:6|max:50',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 422);
         }
 
-        // Request is valid, create new user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        // User created, return success response
         return response()->json([
             'success' => true,
             'message' => 'User created successfully',
@@ -45,19 +41,15 @@ class ApiController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        // valid credential
         $validator = Validator::make($credentials, [
             'email' => 'required|email',
             'password' => 'required|string|min:6|max:50',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 400);
         }
 
-        // Request is validated
-        // Crean token
         try {
             if (! $token = $jwtAuth->attempt($credentials)) {
                 return response()->json([
@@ -72,7 +64,6 @@ class ApiController extends Controller
             ], 500);
         }
 
-        // Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
             'token' => $token,
@@ -81,17 +72,14 @@ class ApiController extends Controller
 
     public function logout(Request $request, JWTAuth $jwtAuth)
     {
-        // valid credential
         $validator = Validator::make($request->only('token'), [
             'token' => 'required',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->messages()], 400);
         }
 
-        // Request is validated, do logout
         try {
             $jwtAuth->invalidate($request->token);
 

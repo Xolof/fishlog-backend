@@ -40,7 +40,6 @@ class FishCatchController extends Controller
      */
     public function store(Request $request, Image $image) // @phpstan-ignore-line
     {
-        // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
@@ -52,12 +51,10 @@ class FishCatchController extends Controller
             'uploadImage' => 'required|image',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
-        // Save the image
         $uploadimage = $request->file('uploadImage');
         $filename = explode('/', $uploadimage)[2];
         $saveurl = public_path('/storage'.'/'.$filename.'.webp');
@@ -69,7 +66,6 @@ class FishCatchController extends Controller
         $imageurl = '/storage'.'/'.$filename.'.webp';
 
         try {
-            // Request is valid, create new fishcatch
             $fishCatch = $this->user->fishCatches()->create([
                 'species' => strip_tags($request->species),
                 'length' => strip_tags($request->length),
@@ -84,7 +80,6 @@ class FishCatchController extends Controller
             ], 500);
         }
 
-        // Fishcatch created, return success response
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch created successfully',
@@ -119,7 +114,6 @@ class FishCatchController extends Controller
      */
     public function update(Request $request, $id, Image $image) // @phpstan-ignore-line
     {
-        // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
@@ -131,7 +125,6 @@ class FishCatchController extends Controller
             'uploadImage' => 'image',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
@@ -152,7 +145,6 @@ class FishCatchController extends Controller
 
         $uploadimage = $request->file('uploadImage');
         if ($uploadimage) {
-            // Save the image
             $filename = explode('/', $uploadimage)[2];
             $saveurl = public_path('/storage'.'/'.$filename.'.webp');
             $image = $image::make($uploadimage)->encode('webp', 90)
@@ -165,7 +157,6 @@ class FishCatchController extends Controller
         }
 
         try {
-            // Request is valid, update fishcatch
             $fishCatch->update($updateData);
         } catch (\Exception $err) {
             return response()->json([
@@ -175,7 +166,6 @@ class FishCatchController extends Controller
             ], 500);
         }
 
-        // Fishcatch updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch updated successfully',
