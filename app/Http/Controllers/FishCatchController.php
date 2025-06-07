@@ -28,9 +28,15 @@ class FishCatchController extends Controller
      */
     public function index()
     {
-        return $this->user
+        $fishCatches = $this->user
             ->fishCatches()
             ->get();
+
+        foreach ($fishCatches as $catch) {
+            $catch["species"] = htmlspecialchars($catch["species"]);
+        }
+
+        return $fishCatches;
     }
 
     /**
@@ -100,7 +106,7 @@ class FishCatchController extends Controller
         if (! $fishCatch) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, item not found.',
+                'message' => 'Item not found.',
             ], 404);
         }
 
@@ -132,7 +138,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 404);
+            return response()->json(['message' => 'Item not found.'], 404);
         }
 
         $updateData = [
@@ -183,7 +189,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 404);
+            return response()->json(['message' => 'Item not found.'], 404);
         }
 
         $fishCatch->delete();

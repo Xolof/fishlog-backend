@@ -90,7 +90,7 @@ class ApiController extends Controller
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, user cannot be logged out',
+                'message' => 'User cannot be logged out',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -102,6 +102,9 @@ class ApiController extends Controller
         ]);
 
         $user = $jwtAuth->authenticate($request->token);
+
+        $user["name"] =  htmlspecialchars($user["name"]);
+        $user["email"] =  htmlspecialchars($user["email"]);
 
         return response()->json(['user' => $user]);
     }
