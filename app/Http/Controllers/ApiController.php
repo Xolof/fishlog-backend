@@ -53,7 +53,7 @@ class ApiController extends Controller
 
         // Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['error' => $validator->messages()], 400);
         }
 
         // Request is validated
@@ -88,7 +88,7 @@ class ApiController extends Controller
 
         // Send failed response if request is not valid
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
+            return response()->json(['error' => $validator->messages()], 400);
         }
 
         // Request is validated, do logout
@@ -98,7 +98,7 @@ class ApiController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'User has been logged out',
-            ]);
+            ], 200);
         } catch (JWTException $exception) {
             return response()->json([
                 'success' => false,
