@@ -38,7 +38,7 @@ class ApiController extends Controller
             'success' => true,
             'message' => 'User created successfully',
             'data' => $user,
-        ], Response::HTTP_OK);
+        ], 201);
     }
 
     public function authenticate(Request $request, JWTAuth $jwtAuth)
