@@ -21,7 +21,7 @@ Route::post('register', [ApiController::class, 'register']);
 Route::get('public_fishcatch', [PublicController::class, 'index']);
 
 Route::group(['middleware' => ['jwt.verify']], function (): void {
-    Route::get('logout', [ApiController::class, 'logout']);
+    Route::post('logout', [ApiController::class, 'logout']);
     Route::get('get_user', [ApiController::class, 'get_user']);
     Route::get('fishcatch', [FishCatchController::class, 'index']);
     Route::get('fishcatch/{id}', [FishCatchController::class, 'show']);
