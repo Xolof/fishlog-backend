@@ -15,5 +15,4 @@ yarn-error.log
 /.idea
 /.vscode
 tests/coverage/
-tests/files/
 

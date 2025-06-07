@@ -65,7 +65,7 @@ describe('Test the API.', function (): void {
             $uniqId = uniqid();
             $fileName = 'mackerel.webp';
             $newFileName = explode('.', $fileName)[0];
-            $stub = __DIR__.'/../files/'.$fileName;
+            $stub = __DIR__.'/../fixtures/'.$fileName;
             $path = sys_get_temp_dir().'/'.$uniqId.$newFileName;
             copy($stub, $path);
 
@@ -99,7 +99,7 @@ describe('Test the API.', function (): void {
         $uniqId = uniqid();
         $fileName = 'mackerel.webp';
         $newFileName = explode('.', $fileName)[0];
-        $stub = __DIR__.'/../files/'.$fileName;
+        $stub = __DIR__.'/../fixtures/'.$fileName;
         $path = sys_get_temp_dir().'/'.$uniqId.$newFileName;
         copy($stub, $path);
 
