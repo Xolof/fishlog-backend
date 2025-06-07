@@ -9,7 +9,6 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^12",
-        "laravel/sanctum": "^4.1",
         "laravel/tinker": "^2.5",
         "tymon/jwt-auth": "^2.0"
     },
