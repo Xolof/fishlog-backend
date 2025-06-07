@@ -106,7 +106,7 @@ class FishCatchController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, item not found.',
-            ], 400);
+            ], 404);
         }
 
         return $fishCatch;
@@ -139,7 +139,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 400);
+            return response()->json(['message' => 'Sorry, item not found.'], 404);
         }
 
         $updateData = [
@@ -172,7 +172,7 @@ class FishCatchController extends Controller
                 'errors' => [
                     'Something went wrong, please check your data.',
                 ],
-            ]);
+            ], 500);
         }
 
         // Fishcatch updated, return success response
@@ -193,7 +193,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 400);
+            return response()->json(['message' => 'Sorry, item not found.'], 404);
         }
 
         $fishCatch->delete();
