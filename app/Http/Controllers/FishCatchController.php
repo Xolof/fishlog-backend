@@ -91,10 +91,8 @@ class FishCatchController extends Controller
             ]);
         } catch (\Exception $err) {
             return response()->json([
-                'error' => [
-                    'Something went wrong, please check your data.',
-                ],
-            ]);
+                'error' => ['Something went wrong, please check your data.'],
+            ], 500);
         }
 
         // Fishcatch created, return success response
@@ -102,7 +100,7 @@ class FishCatchController extends Controller
             'success' => true,
             'message' => 'Fishcatch created successfully',
             'data' => $fishCatch,
-        ], Response::HTTP_OK);
+        ], 201);
     }
 
     /**
@@ -224,6 +222,6 @@ class FishCatchController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch deleted successfully',
-        ], Response::HTTP_OK);
+        ], 204);
     }
 }
