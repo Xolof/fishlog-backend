@@ -9,7 +9,7 @@ namespace App\Http\Controllers;
 use App\Models\FishCatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Image;
+use Image;
 use Tymon\JWTAuth\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,7 +72,7 @@ class FishCatchController extends Controller
         $uploadimage = $request->file('uploadImage');
         $filename = explode('/', $uploadimage)[2];
         $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-        $image = $image->make($uploadimage)->encode('webp', 90)
+        $image = $image::make($uploadimage)->encode('webp', 90)
             ->resize(500, 500, function ($constraint): void {
                 $constraint->aspectRatio();
             })->save($saveurl);
@@ -178,7 +178,7 @@ class FishCatchController extends Controller
             // Save the image
             $filename = explode('/', $uploadimage)[2];
             $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-            $image = $image->make($uploadimage)->encode('webp', 90)
+            $image = $image::make($uploadimage)->encode('webp', 90)
                 ->resize(500, 500, function ($constraint): void {
                     $constraint->aspectRatio();
                 })->save($saveurl);
