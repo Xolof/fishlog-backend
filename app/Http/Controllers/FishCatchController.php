@@ -8,7 +8,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Image;
+use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\JWTAuth;
 
@@ -38,7 +38,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Image $image) // @phpstan-ignore-line
+    public function store(Request $request, Image $image)
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
@@ -112,7 +112,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, Image $image) // @phpstan-ignore-line
+    public function update(Request $request, $id, Image $image)
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
