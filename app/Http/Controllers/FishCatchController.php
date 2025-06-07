@@ -6,7 +6,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FishCatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Image;
@@ -32,16 +31,6 @@ class FishCatchController extends Controller
         return $this->user
             ->fishCatches()
             ->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
-    public function create(): void
-    {
-
     }
 
     /**
@@ -121,16 +110,6 @@ class FishCatchController extends Controller
         }
 
         return $fishCatch;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return void
-     */
-    public function edit(FishCatch $fishCatch): void
-    {
-
     }
 
     /**
