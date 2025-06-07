@@ -35,7 +35,7 @@ Required values: email, password
 
 Route:  `/api/logout`
 
-Metod: GET
+Metod: POST
 
 Required values: token
 
@@ -60,8 +60,6 @@ Must be authenticated with JWT
 ### Update a catch
 
 Route:  `/api/update/<catch-id>`
-
-Metod: POST (It has to be POST for PHP to be able to handle files in formdata.)
 
 Required values: species, length, weight, location, uploadImage, date
 
