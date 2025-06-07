@@ -12,7 +12,7 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
 
 /*
@@ -41,7 +41,18 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function logIn($context, $url, $email, $password)
 {
-    // ..
+    $response = $context->post($url.'/login', [
+        'email' => $email,
+        'password' => $password,
+    ]);
+
+    $response->assertStatus(200);
+
+    $json = $response->json();
+
+    $token = $json['token'];
+
+    return $token;
 }
