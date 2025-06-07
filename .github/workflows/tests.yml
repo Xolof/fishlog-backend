@@ -101,6 +101,7 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/logs
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/sessions
             touch ${{ secrets.DEPLOY_PATH }}/storage/logs/laravel.log
             touch ${{ secrets.DEPLOY_PATH }}/database/database.sqlite
             chown -R ${{ secrets.DEPLOY_USER }}:${{ secrets.DEPLOY_USER }} ${{ secrets.DEPLOY_PATH }}
