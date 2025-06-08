@@ -6,11 +6,13 @@
 
 namespace App\Http\Controllers;
 
+use \Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Support\Facades\Log;
 
 class FishCatchController extends Controller
 {
@@ -80,7 +82,8 @@ class FishCatchController extends Controller
                 'location' => strip_tags($request->location),
                 'imageurl' => strip_tags($imageurl),
             ]);
-        } catch (\Exception $err) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
             return response()->json([
                 'error' => ['Something went wrong, please check your data.'],
             ], 500);
@@ -164,7 +167,8 @@ class FishCatchController extends Controller
 
         try {
             $fishCatch->update($updateData);
-        } catch (\Exception $err) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
             return response()->json([
                 'errors' => [
                     'Something went wrong, please check your data.',

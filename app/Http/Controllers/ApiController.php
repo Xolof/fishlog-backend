@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -58,6 +59,8 @@ class ApiController extends Controller
                 ], 400);
             }
         } catch (JWTException $e) {
+            Log::error($e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Could not create token.',
@@ -87,7 +90,9 @@ class ApiController extends Controller
                 'success' => true,
                 'message' => 'User has been logged out',
             ], 200);
-        } catch (JWTException $exception) {
+        } catch (JWTException $e) {
+            Log::error($e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'User cannot be logged out',
