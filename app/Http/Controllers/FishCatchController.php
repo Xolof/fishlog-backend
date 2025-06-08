@@ -6,12 +6,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FishCatch;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Image;
-use Tymon\JWTAuth\JWTAuth;
+use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\Response;
+use Tymon\JWTAuth\JWTAuth;
 
 class FishCatchController extends Controller
 {
@@ -29,19 +30,15 @@ class FishCatchController extends Controller
      */
     public function index()
     {
-        return $this->user
+        $fishCatches = $this->user
             ->fishCatches()
             ->get();
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
-    public function create(): void
-    {
+        foreach ($fishCatches as $catch) {
+            $catch['species'] = htmlspecialchars($catch['species']);
+        }
 
+        return $fishCatches;
     }
 
     /**
@@ -51,7 +48,6 @@ class FishCatchController extends Controller
      */
     public function store(Request $request, Image $image)
     {
-        // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
@@ -63,16 +59,14 @@ class FishCatchController extends Controller
             'uploadImage' => 'required|image',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
 
-        // Save the image
         $uploadimage = $request->file('uploadImage');
         $filename = explode('/', $uploadimage)[2];
         $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-        $image = $image->make($uploadimage)->encode('webp', 90)
+        $image = $image::make($uploadimage)->encode('webp', 90)
             ->resize(500, 500, function ($constraint): void {
                 $constraint->aspectRatio();
             })->save($saveurl);
@@ -80,7 +74,6 @@ class FishCatchController extends Controller
         $imageurl = '/storage'.'/'.$filename.'.webp';
 
         try {
-            // Request is valid, create new fishcatch
             $fishCatch = $this->user->fishCatches()->create([
                 'species' => strip_tags($request->species),
                 'length' => strip_tags($request->length),
@@ -89,20 +82,19 @@ class FishCatchController extends Controller
                 'location' => strip_tags($request->location),
                 'imageurl' => strip_tags($imageurl),
             ]);
-        } catch (\Exception $err) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
             return response()->json([
-                'error' => [
-                    'Something went wrong, please check your data.',
-                ],
-            ]);
+                'error' => ['Something went wrong, please check your data.'],
+            ], 500);
         }
 
-        // Fishcatch created, return success response
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch created successfully',
             'data' => $fishCatch,
-        ], Response::HTTP_OK);
+        ], 201);
     }
 
     /**
@@ -118,21 +110,11 @@ class FishCatchController extends Controller
         if (! $fishCatch) {
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, item not found.',
-            ], 400);
+                'message' => 'Item not found.',
+            ], 404);
         }
 
         return $fishCatch;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return void
-     */
-    public function edit(FishCatch $fishCatch): void
-    {
-
     }
 
     /**
@@ -142,7 +124,6 @@ class FishCatchController extends Controller
      */
     public function update(Request $request, $id, Image $image)
     {
-        // Validate data
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
         $validator = Validator::make($data, [
@@ -154,7 +135,6 @@ class FishCatchController extends Controller
             'uploadImage' => 'image',
         ]);
 
-        // Send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->all()], 400);
         }
@@ -162,7 +142,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 400);
+            return response()->json(['message' => 'Item not found.'], 404);
         }
 
         $updateData = [
@@ -175,10 +155,9 @@ class FishCatchController extends Controller
 
         $uploadimage = $request->file('uploadImage');
         if ($uploadimage) {
-            // Save the image
             $filename = explode('/', $uploadimage)[2];
             $saveurl = public_path('/storage'.'/'.$filename.'.webp');
-            $image = $image->make($uploadimage)->encode('webp', 90)
+            $image = $image::make($uploadimage)->encode('webp', 90)
                 ->resize(500, 500, function ($constraint): void {
                     $constraint->aspectRatio();
                 })->save($saveurl);
@@ -188,17 +167,17 @@ class FishCatchController extends Controller
         }
 
         try {
-            // Request is valid, update fishcatch
             $fishCatch->update($updateData);
-        } catch (\Exception $err) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
             return response()->json([
                 'errors' => [
                     'Something went wrong, please check your data.',
                 ],
-            ]);
+            ], 500);
         }
 
-        // Fishcatch updated, return success response
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch updated successfully',
@@ -216,7 +195,7 @@ class FishCatchController extends Controller
         $fishCatch = $this->user->fishCatches()->find($id);
 
         if (! $fishCatch) {
-            return response()->json(['message' => 'Sorry, item not found.'], 400);
+            return response()->json(['message' => 'Item not found.'], 404);
         }
 
         $fishCatch->delete();
@@ -224,6 +203,6 @@ class FishCatchController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Fishcatch deleted successfully',
-        ], Response::HTTP_OK);
+        ], 204);
     }
 }
