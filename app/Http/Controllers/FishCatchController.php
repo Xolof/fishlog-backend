@@ -33,7 +33,7 @@ class FishCatchController extends Controller
             ->get();
 
         foreach ($fishCatches as $catch) {
-            $catch["species"] = htmlspecialchars($catch["species"]);
+            $catch['species'] = htmlspecialchars($catch['species']);
         }
 
         return $fishCatches;

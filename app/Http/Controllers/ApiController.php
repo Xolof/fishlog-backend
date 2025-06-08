@@ -103,8 +103,8 @@ class ApiController extends Controller
 
         $user = $jwtAuth->authenticate($request->token);
 
-        $user["name"] =  htmlspecialchars($user["name"]);
-        $user["email"] =  htmlspecialchars($user["email"]);
+        $user['name'] = htmlspecialchars($user['name']);
+        $user['email'] = htmlspecialchars($user['email']);
 
         return response()->json(['user' => $user]);
     }
