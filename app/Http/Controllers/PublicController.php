@@ -15,7 +15,7 @@ class PublicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): array
     {
         $fishCatches = DB::table('fish_catches')
             ->leftJoin('users', 'fish_catches.user_id', '=', 'users.id')
