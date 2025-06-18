@@ -17,7 +17,7 @@ class JwtMiddleware extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         // TODO: Upgrade JWT implementation to newest version of tymon/jwt-auth.
-        $user = JWTAuth::parseToken()->authenticate(); // @phpstan-ignore-line
+        $user = JWTAuth::parseToken()->authenticate();
 
         return $next($request);
     }

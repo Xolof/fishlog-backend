@@ -12,7 +12,7 @@ use Tymon\JWTAuth\JWTAuth;
 
 class ApiController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request): Response
     {
         $data = $request->only('name', 'email', 'password');
         $validator = Validator::make($data, [
@@ -38,7 +38,7 @@ class ApiController extends Controller
         ], 201);
     }
 
-    public function authenticate(Request $request, JWTAuth $jwtAuth)
+    public function authenticate(Request $request, JWTAuth $jwtAuth): Response
     {
         $credentials = $request->only('email', 'password');
 
@@ -73,7 +73,7 @@ class ApiController extends Controller
         ]);
     }
 
-    public function logout(Request $request, JWTAuth $jwtAuth)
+    public function logout(Request $request, JWTAuth $jwtAuth): Response
     {
         $validator = Validator::make($request->only('token'), [
             'token' => 'required',
@@ -100,7 +100,7 @@ class ApiController extends Controller
         }
     }
 
-    public function get_user(Request $request, JWTAuth $jwtAuth)
+    public function get_user(Request $request, JWTAuth $jwtAuth): Response
     {
         $this->validate($request, [
             'token' => 'required',

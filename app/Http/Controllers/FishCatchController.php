@@ -28,7 +28,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): array
     {
         $fishCatches = $this->user
             ->fishCatches()
@@ -46,7 +46,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Image $image)
+    public function store(Request $request, Image $image): Response
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
@@ -103,7 +103,7 @@ class FishCatchController extends Controller
      * @param  \App\Models\FishCatch  $fishCatch
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $fishCatch = $this->user->fishCatches()->find($id);
 
@@ -122,7 +122,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, Image $image)
+    public function update(Request $request, int $id, Image $image): Response
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
@@ -190,7 +190,7 @@ class FishCatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): Response
     {
         $fishCatch = $this->user->fishCatches()->find($id);
 
