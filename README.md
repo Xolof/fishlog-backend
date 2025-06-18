@@ -23,7 +23,7 @@ Route: `/api/register`
 
 Method: POST
 
-Required values: <string>name, <string>email, <string>password
+Required values: `<string>name`, `<string>email`, `<string>password`
 
 ### Log in
 
@@ -31,7 +31,7 @@ Route:  `/api/login`
 
 Metod: POST
 
-Required values: <string>email, <string>password 
+Required values: `<string>email`, `<string>password`
 
 ### Log out
 
@@ -39,7 +39,7 @@ Route:  `/api/logout`
 
 Metod: POST
 
-Required values: <string>token (The JWT token you received upon login.)
+Required values: `<string>token` (The JWT token you received upon login.)
 
 ### Get user
 
@@ -47,7 +47,7 @@ Route:  `/api/get_user`
 
 Metod: GET
 
-Required values: <string>token (The JWT token you received upon login.)
+Required values: `<string>token` (The JWT token you received upon login.)
 
 ### Add a catch
 
@@ -55,7 +55,7 @@ Route:  `/api/create`
 
 Metod: POST
 
-Required values: <string>species, <int>length, <int>weight, <string>location, <binary>uploadImage, <string>date
+Required values: `<string>species`, `<int>length`, `<int>weight`, `<string>location`, `<binary>uploadImage`, `<string>date`
 
 Must be authenticated with JWT. 
 Set a Request Header like the following:
@@ -65,7 +65,7 @@ Authorization: "Bearer <JWT_token>"
 
 Route:  `/api/update/<catch-id>`
 
-Required values: <string>species, <int>length, <int>weight, <string>location, <binary>uploadImage, <string>date
+Required values: `<string>species`, `<int>length`, `<int>weight`, `<string>location`, `<binary>uploadImage`, `<string>date`
 
 Must be authenticated with JWT
 Set a Request Header like the following:
