@@ -1,3 +1,5 @@
+[![Tests](https://github.com/Xolof/fishlog-backend/actions/workflows/tests.yml/badge.svg)](https://github.com/Xolof/fishlog-backend/actions/workflows/tests.yml)
+
 # Fishlog backend
 
 This is the backend for the Fishlog app, an app that allows users to save data about their catches and view them on a map.
