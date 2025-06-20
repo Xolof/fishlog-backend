@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://fishlog.oljo.online', 'http://localhost:3000'],
+    'allowed_origins' => ['https://fishlog.oljo.online', 'http://localhost:5173'],
 
     'allowed_origins_patterns' => [],
 
