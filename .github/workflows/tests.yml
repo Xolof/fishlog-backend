@@ -86,7 +86,7 @@ jobs:
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete --exclude='database/database.sqlite'
+          switches: -avzr --delete --exclude='database/database.sqlite' --exclude='storage'
           path: .
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: ${{ secrets.DEPLOY_HOST }}
