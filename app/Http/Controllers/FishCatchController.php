@@ -16,7 +16,7 @@ use Tymon\JWTAuth\JWTAuth;
 
 class FishCatchController extends Controller
 {
-    protected $user;
+    protected \App\Models\User $user;
 
     public function __construct(JWTAuth $jwtAuth)
     {
@@ -26,7 +26,7 @@ class FishCatchController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array<\App\Models\FishCatch>
      */
     public function index(): array
     {
@@ -44,9 +44,9 @@ class FishCatchController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Image $image): Response
+    public function store(Request $request, Image $image): \Illuminate\Http\JsonResponse
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
@@ -100,8 +100,8 @@ class FishCatchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FishCatch  $fishCatch
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \App\Models\FishCatch|\Illuminate\Http\JsonResponse
      */
     public function show(int $id)
     {
@@ -113,16 +113,15 @@ class FishCatchController extends Controller
                 'message' => 'Item not found.',
             ], 404);
         }
-
         return $fishCatch;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, int $id, Image $image): Response
+    public function update(Request $request, int $id, Image $image): \Illuminate\Http\JsonResponse
     {
         $data = $request->only('species', 'length', 'weight', 'date', 'location', 'uploadImage');
 
@@ -188,9 +187,9 @@ class FishCatchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id): Response
+    public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
         $fishCatch = $this->user->fishCatches()->find($id);
 

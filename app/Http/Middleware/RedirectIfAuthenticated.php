@@ -13,9 +13,9 @@ class RedirectIfAuthenticated
      * Handle an incoming request.
      *
      * @param  string|null  ...$guards
-     * @return mixed
+     * @return Closure|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards): Closure
+    public function handle(Request $request, Closure $next, ...$guards): Closure|\Illuminate\Http\RedirectResponse
     {
         $guards = empty($guards) ? [null] : $guards;
 

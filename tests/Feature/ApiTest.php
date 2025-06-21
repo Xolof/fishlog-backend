@@ -148,6 +148,28 @@ describe('Test the API.', function (): void {
         $response->assertStatus(400);
     });
 
+    it('Tries to update a catch with invalid token.', function (): void {
+        $token = 'invalido!';
+        $tokenHeader = "Bearer $token";
+
+        $response = $this->get(API_BASE_URL.'/public_fishcatch');
+        $response->assertStatus(200);
+        $data = $response->json();
+        $id = $data[0]['id'];
+
+        $response = $this->post(API_BASE_URL."/update/$id", [
+            'species' => 12345,
+            'length' => 123,
+            'weight' => 1254,
+            'location' => '57.76776343640755,11.710193958021183',
+            'date' => '2025-06-19',
+        ], [
+            'authorization' => $tokenHeader,
+        ]);
+
+        $response->assertStatus(401);
+    });
+
     it('Tries to update non existant fishCatch.', function (): void {
         $token = logIn($this, API_BASE_URL, 'kalle@anka.se', 'Passw0rd');
         $tokenHeader = "Bearer $token";
