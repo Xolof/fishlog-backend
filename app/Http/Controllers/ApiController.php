@@ -106,7 +106,7 @@ class ApiController extends Controller
             'token' => 'required',
         ]);
 
-        $user = $jwtAuth->authenticate($request->token);
+        $user = $jwtAuth->authenticate();
 
         $user['name'] = htmlspecialchars($user['name']);
         $user['email'] = htmlspecialchars($user['email']);

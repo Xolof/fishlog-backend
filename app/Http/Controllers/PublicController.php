@@ -13,7 +13,7 @@ class PublicController extends Controller
     /**
      * Display a list of all catches.
      *
-     * @return \Illuminate\Http\Response
+     * @return array<\App\Models\FishCatch>
      */
     public function index(): array
     {
