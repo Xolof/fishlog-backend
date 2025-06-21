@@ -57,7 +57,7 @@ jobs:
       run: ./vendor/bin/phpstan analyse app routes --memory-limit=1G
 
     - name: Clear config
-      run: php artisan config:clear --ansi 
+      run: php artisan config:clear --ansi
 
     - name: Run Pest tests
       run: ./vendor/bin/pest --coverage --min=70
@@ -86,7 +86,7 @@ jobs:
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete
+          switches: -avzr --delete  --exclude='database/database.sqlite'
           path: .
           remote_path: ${{ secrets.DEPLOY_PATH }}
           remote_host: ${{ secrets.DEPLOY_HOST }}
